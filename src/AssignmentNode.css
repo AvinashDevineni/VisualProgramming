@@ -1,0 +1,13 @@
+.node > * {
+    margin: 0px;
+    height: 18px;
+}
+
+.node > input {
+    font-size: 14px;
+    width: 100px;
+}
+
+.node > p {
+    user-select: none;
+}

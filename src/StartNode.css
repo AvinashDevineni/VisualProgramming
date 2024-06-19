@@ -1,0 +1,10 @@
+#startNode {
+    padding: 10px;
+    text-align: center;
+}
+
+#startNode > p {
+    font-size: 20px;
+    margin: 0px;
+    user-select: none;
+}
