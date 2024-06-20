@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import './AssignmentNode.css';
 
-export default function AssignmentNode({onMove}) {
+export default function AssignmentNode({isDraggable, onMove}) {
     const [position, setPosition] = useState({x: 0, y: 0});
     const mouseOffset = useRef({x: 0, y: 0});
     const nodeRef = useRef();
@@ -21,7 +21,7 @@ export default function AssignmentNode({onMove}) {
         setPosition({x: event.pageX - mouseOffset.current.x, y: event.pageY - mouseOffset.current.y});
 
         if (onMove)
-            onMove();
+            onMove({x: event.pageX - mouseOffset.current.x, y: event.pageY - mouseOffset.current.y});
     }
 
     function handleDrag(event) {
@@ -34,8 +34,12 @@ export default function AssignmentNode({onMove}) {
 
     return (
         <>
-            <div ref={nodeRef} className="node" onMouseDown={handleDrag}
-             style={{top: `${position.y}px`, left: `${position.x}px`}}>
+            <div ref={nodeRef} className={"node assignmentNode"}
+             onMouseDown={(isDraggable === true) ? handleDrag : () => null}
+             style={{
+                position: (isDraggable === true) ? 'absolute' : 'relative',
+                top: `${position.y}px`, left: `${position.x}px`
+             }}>
                 <input type="text" className="assignmentVarName"/>
                 <p className="assignmentEquals">=</p>
                 <input type="text" className="assignmentVal"/>

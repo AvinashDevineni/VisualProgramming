@@ -1,13 +1,13 @@
-import StartNode from './StartNode';
-import AssignmentNode from './AssignmentNode';
+import Toolbar from './Toolbar';
+import Arrow from './Arrow';
 
 import './App.css'
 
 export default function App() {
   return (
     <>
-      <StartNode/>
-      <AssignmentNode/>
+      <Toolbar/>
+      <Arrow from={{x: 100, y: 100}} to={{x: 300, y: 167}}/>
     </>
   )
 }

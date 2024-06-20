@@ -1,16 +1,16 @@
 body {
   background-color: rgb(238, 237, 219);
   color: white;
+
+  margin: 0px;
 }
 
 .node {
-  position: absolute;
-
   display: flex;
   align-items: center;
   gap: 5px;
   padding: 10px;
 
   background-color: rgb(51, 51, 51);
-  border-radius: 5px;
+  border-radius: 3px;
 }

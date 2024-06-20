@@ -1,10 +1,20 @@
 #startNode {
+    width: min-content;
+    height: min-content;
+
+    border-radius: 25px;
+
     padding: 10px;
-    text-align: center;
 }
 
 #startNode > p {
-    font-size: 20px;
+    width: min-content;
+    height: min-content;
+
+    font-size: 21px;
     margin: 0px;
     user-select: none;
+
+    padding-right: 5px;
+    padding-left: 5px;
 }

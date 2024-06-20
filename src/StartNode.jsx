@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import './StartNode.css';
 
-export default function StartNode({onMove}) {
+export default function StartNode({isDraggable, onMove}) {
     const [position, setPosition] = useState({x: 0, y: 0});
     const mouseOffset = useRef({x: 0, y: 0});
     const nodeRef = useRef();
@@ -18,7 +18,7 @@ export default function StartNode({onMove}) {
         setPosition({x: event.pageX - mouseOffset.current.x, y: event.pageY - mouseOffset.current.y});
 
         if (onMove)
-            onMove();
+            onMove({x: event.pageX - mouseOffset.current.x, y: event.pageY - mouseOffset.current.y});
     }
 
     function handleDrag(event) {
@@ -31,8 +31,12 @@ export default function StartNode({onMove}) {
 
     return (
         <>
-            <div ref={nodeRef} id="startNode" className="node" onMouseDown={handleDrag}
-             style={{top: `${position.y}px`, left: `${position.x}px`}}>
+            <div ref={nodeRef} id="startNode" className="node"
+             onMouseDown={(isDraggable === undefined || isDraggable === false) ? () => null : handleDrag}
+             style={{
+                position: (isDraggable === true) ? 'absolute' : 'relative',
+                top: `${position.y}px`, left: `${position.x}px`
+             }}>
                 <p>START</p>
             </div>
         </>

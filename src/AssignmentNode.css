@@ -1,13 +1,13 @@
-.node > * {
+.assignmentNode > * {
     margin: 0px;
     height: 18px;
 }
 
-.node > input {
+.assignmentNode > input {
     font-size: 14px;
     width: 100px;
 }
 
-.node > p {
+.assignmentNode > p {
     user-select: none;
 }

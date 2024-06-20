@@ -1,0 +1,37 @@
+#toolBar {
+    display: flex;
+    gap: 50px;
+
+    background-color: rgb(202, 201, 183);
+    padding: 10px 10px 10px 10px;
+
+    overflow: auto;
+}
+
+#toolBar::-webkit-scrollbar {
+    background-color: rgb(179, 178, 178);
+    height: 11px;
+}
+
+#toolBar::-webkit-scrollbar-thumb {
+    background-color: rgb(100, 100, 100);
+    border-radius: 10px;
+    height: 70%;
+}
+
+#toolBar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(112, 112, 112);
+}
+
+.toolBarItem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    align-items: center;
+}
+
+.toolBarItem > p {
+    font-size: 20px;
+    margin: 0px;
+}
