@@ -7,7 +7,7 @@ export default function App() {
   return (
     <>
       <Toolbar/>
-      <Arrow from={{x: 100, y: 100}} to={{x: 300, y: 167}}/>
+      {/* <Arrow from={{x: 100, y: 100}} to={{x: 300, y: 35}} arrowWidth={6}/> */}
     </>
   )
 }

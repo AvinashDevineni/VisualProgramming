@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import './AssignmentNode.css';
 
-export default function AssignmentNode({isDraggable, onMove}) {
+export default function AssignmentNode({isDraggable, isAbsolutePos, onMove, onDrag, setRef, isInvisible}) {
     const [position, setPosition] = useState({x: 0, y: 0});
     const mouseOffset = useRef({x: 0, y: 0});
     const nodeRef = useRef();
@@ -28,18 +28,31 @@ export default function AssignmentNode({isDraggable, onMove}) {
         const boundingBox = nodeRef.current.getBoundingClientRect();
         mouseOffset.current = {x: event.pageX - boundingBox.left, y: event.pageY - boundingBox.top};
 
+        if (onDrag)
+            onDrag();
+
         document.addEventListener('mouseup', handleMouseUp);
         document.addEventListener('mousemove', handleMouseMove);
     }
 
+    const divStyles = {
+        position: (isAbsolutePos === false) ? 'relative' : 'absolute',
+        top: `${position.y}px`, left: `${position.x}px`
+    };
+
+    if (isInvisible)
+        divStyles.display = 'none';
+
     return (
         <>
-            <div ref={nodeRef} className={"node assignmentNode"}
-             onMouseDown={(isDraggable === true) ? handleDrag : () => null}
-             style={{
-                position: (isDraggable === true) ? 'absolute' : 'relative',
-                top: `${position.y}px`, left: `${position.x}px`
-             }}>
+            <div ref={(divRef) => {
+                nodeRef.current = divRef;
+                if (setRef)
+                    setRef(divRef);
+             }}
+             className={"node assignmentNode"}
+             onMouseDown={(isDraggable === false) ? () => { if (onDrag) onDrag() } : handleDrag}
+             style={divStyles}>
                 <input type="text" className="assignmentVarName"/>
                 <p className="assignmentEquals">=</p>
                 <input type="text" className="assignmentVal"/>
