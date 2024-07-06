@@ -19,6 +19,7 @@ body {
 
 .node p {
   user-select: none;
+  margin: 0px;
 }
 
 .node[data-hover] {

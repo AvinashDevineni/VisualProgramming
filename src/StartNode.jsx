@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "react";
 
 import './StartNode.css';
 
-export default function StartNode({isDraggable, isAbsolutePos, initialPos, isDraggingInitially, onMove, onDrag, setRef, isInvisible}) {
+export default function StartNode({
+        isDraggable, isDraggingInitially, onMove, onDrag,
+        isAbsolutePos, initialPos, isInvisible, setRef
+    }) {
     const [position, setPosition] = useState(initialPos === undefined ? {x: 0, y: 0} : initialPos);
     const mouseOffset = useRef({x: 0, y: 0});
     const nodeRef = useRef();
@@ -67,7 +70,7 @@ export default function StartNode({isDraggable, isAbsolutePos, initialPos, isDra
 
     return (
         <>
-            <div ref={(divRef) => {
+            <div ref={divRef => {
                 nodeRef.current = divRef;
                 if (setRef)
                     setRef(divRef);
