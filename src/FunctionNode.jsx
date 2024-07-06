@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
-import './AssignmentNode.css';
+import './FunctionNode.css';
 
-export default function AssignmentNode({
-        isDraggable, isDraggingInitially, onMove, onDrag,
+export default function FunctionNode({
+        functionOptions, isDraggable, isDraggingInitially, onMove, onDrag,
         isAbsolutePos, initialPos, isInvisible, setRef
     }) {
-    const [varName, setVarName] = useState('');
-    const [assignmentVal, setAssignmentVal] = useState('');
-    
+    const [selectedFunctionOption, setSelectedFunctionOption] = useState(functionOptions[0]);
+    const selectRef = useRef();
+
     const [position, setPosition] = useState(initialPos === undefined ? {x: 0, y: 0} : initialPos);
     const mouseOffset = useRef({x: 0, y: 0});
     const nodeRef = useRef();
@@ -73,15 +73,22 @@ export default function AssignmentNode({
 
     return (
         <>
-            <div ref={(divRef) => {
+            <div ref={divRef => {
                 nodeRef.current = divRef;
                 if (setRef)
                     setRef(divRef);
              }}
-             className={"node assignmentNode"} onMouseDown={handleDrag} style={divStyles}>
-                <input type="text" className="assignmentVarName"/>
-                <p className="assignmentEquals" draggable={false}>=</p>
-                <input type="text" className="assignmentVal"/>
+             className="functionNode node" onMouseDown={handleDrag} style={divStyles}>
+                <select ref={selectRef} onChange={() => {
+                    const selectedFunction = functionOptions[selectRef.current.selectedIndex];
+                    setSelectedFunctionOption(selectedFunction);
+                }}>
+                    {functionOptions.map((functionOption, i) => <option key={i}>{functionOption.name}</option>)}
+                </select>
+                <p>&#40;</p>
+                {Array.from({ length: selectedFunctionOption.numParams}, (x, i) => i)
+                 .map(i => <><input key={i} type="text" defaultValue=""></input> {i === selectedFunctionOption.numParams - 1 ? null : <p>,</p>}</>)}
+                <p>&#41;</p>
             </div>
         </>
     )
