@@ -3,10 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import './FunctionNode.css';
 
 export default function FunctionNode({
-        functionOptions, isDraggable, isDraggingInitially, onMove, onDrag,
-        isAbsolutePos, initialPos, isInvisible, setRef
+        functionOptions, isDraggable, isDraggingInitially, onMove, onDrag, onDrop,
+        isAbsolutePos, isInputDisabled, initialPos, isInvisible, setRef
     }) {
-    const [selectedFunctionOption, setSelectedFunctionOption] = useState(functionOptions[0]);
+    const [selectedFunctionOption, setSelectedFunctionOption] =
+    useState((!functionOptions || functionOptions.length === 0) ? null : functionOptions[0]);
     const selectRef = useRef();
 
     const [position, setPosition] = useState(initialPos === undefined ? {x: 0, y: 0} : initialPos);
@@ -26,6 +27,9 @@ export default function FunctionNode({
     }
 
     function handleMouseUp(event) {
+        if (onDrop)
+            onDrop({x: event.pageX - mouseOffset.current.x, y: event.pageY - mouseOffset.current.y});
+
         nodeRef.current.removeAttribute('data-hover');
         mouseOffset.current = {x: 0, y: 0};
 
@@ -82,11 +86,11 @@ export default function FunctionNode({
                 <select ref={selectRef} onChange={() => {
                     const selectedFunction = functionOptions[selectRef.current.selectedIndex];
                     setSelectedFunctionOption(selectedFunction);
-                }}>
-                    {functionOptions.map((functionOption, i) => <option key={i}>{functionOption.name}</option>)}
+                }} disabled={isInputDisabled === true ? true : false}>
+                    {!functionOptions ? null : functionOptions.map((functionOption, i) => <option key={i}>{functionOption.name}</option>)}
                 </select>
                 <p>&#40;</p>
-                {Array.from({ length: selectedFunctionOption.numParams}, (x, i) => i)
+                {!functionOptions ? null : Array.from({ length: selectedFunctionOption.numParams}, (x, i) => i)
                  .map(i => <><input key={i} type="text" defaultValue=""></input> {i === selectedFunctionOption.numParams - 1 ? null : <p>,</p>}</>)}
                 <p>&#41;</p>
             </div>

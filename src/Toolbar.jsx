@@ -1,20 +1,17 @@
 import { useRef } from "react";
-import AssignmentNode from "./AssignmentNode";
 import StartNode from './StartNode';
+import AssignmentNode from "./AssignmentNode";
+import FunctionNode from './FunctionNode';
 
 import './Toolbar.css';
 
-export default function Toolbar({addToNodes, doesStartExist}) {
-    const startNodeRef = useRef();
-    const assignmentNodeRef = useRef();
-
+export default function Toolbar({setRef, addToNodes, doesStartExist, functionOptions}) {
     return (
         <>
-            <div id="toolBar">
+            <div ref={setRef} id="toolBar">
                 <div className="toolBarItem">
                     <p>Start</p>
                     <StartNode isAbsolutePos={false} isDraggable={false}
-                     setRef={(ref) => startNodeRef.current = ref}
                      onDrag={mousePos => {
                         if (doesStartExist !== undefined && doesStartExist())
                             return;
@@ -23,9 +20,14 @@ export default function Toolbar({addToNodes, doesStartExist}) {
                 </div>
                 <div className="toolBarItem">
                     <p>Assignment</p>
-                    <AssignmentNode isAbsolutePos={false} isDraggable={false}
-                     setRef={(ref) => assignmentNodeRef.current = ref}
+                    <AssignmentNode isAbsolutePos={false} isDraggable={false} isInputDisabled={true}
                      onDrag={mousePos => addToNodes({type: 'assignment', initPos: mousePos})}/>
+                </div>
+                <div className="toolBarItem">
+                    <p>Function Call</p>
+                    <FunctionNode isAbsolutePos={false} isDraggable={false}
+                     isInputDisabled={true} functionOptions={functionOptions}
+                     onDrag={mousePos => addToNodes({type: 'function', initPos: mousePos})}/>
                 </div>
             </div>
         </>

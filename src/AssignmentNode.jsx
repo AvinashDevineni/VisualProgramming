@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import './AssignmentNode.css';
 
 export default function AssignmentNode({
-        isDraggable, isDraggingInitially, onMove, onDrag,
-        isAbsolutePos, initialPos, isInvisible, setRef
+        isDraggable, isDraggingInitially, onMove, onDrag, onDrop,
+        isAbsolutePos, isInputDisabled, initialPos, isInvisible, setRef
     }) {
     const [varName, setVarName] = useState('');
     const [assignmentVal, setAssignmentVal] = useState('');
@@ -26,6 +26,9 @@ export default function AssignmentNode({
     }
 
     function handleMouseUp(event) {
+        if (onDrop)
+            onDrop({x: event.pageX - mouseOffset.current.x, y: event.pageY - mouseOffset.current.y});
+
         nodeRef.current.removeAttribute('data-hover');
         mouseOffset.current = {x: 0, y: 0};
 
@@ -78,10 +81,12 @@ export default function AssignmentNode({
                 if (setRef)
                     setRef(divRef);
              }}
-             className={"node assignmentNode"} onMouseDown={handleDrag} style={divStyles}>
-                <input type="text" className="assignmentVarName"/>
+             className="node assignmentNode" onMouseDown={handleDrag} style={divStyles}>
+                <input type="text" className="assignmentVarName" onChange={e => setVarName(e.target.value)}
+                 readOnly={isInputDisabled === true ? true : false}/>
                 <p className="assignmentEquals" draggable={false}>=</p>
-                <input type="text" className="assignmentVal"/>
+                <input type="text" className="assignmentVal" onChange={e => setAssignmentVal(e.target.value)}
+                 readOnly={isInputDisabled === true ? true : false}/>
             </div>
         </>
     )

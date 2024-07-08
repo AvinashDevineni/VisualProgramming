@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import './StartNode.css';
 
 export default function StartNode({
-        isDraggable, isDraggingInitially, onMove, onDrag,
+        isDraggable, isDraggingInitially, onMove, onDrag, onDrop,
         isAbsolutePos, initialPos, isInvisible, setRef
     }) {
     const [position, setPosition] = useState(initialPos === undefined ? {x: 0, y: 0} : initialPos);
@@ -23,6 +23,9 @@ export default function StartNode({
     }
 
     function handleMouseUp(event) {
+        if (onDrop)
+            onDrop({x: event.pageX - mouseOffset.current.x, y: event.pageY - mouseOffset.current.y});
+        
         nodeRef.current.removeAttribute('data-hover');
         mouseOffset.current = {x: 0, y: 0};
 
